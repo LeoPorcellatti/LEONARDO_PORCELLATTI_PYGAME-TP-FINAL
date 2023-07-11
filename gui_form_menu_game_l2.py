@@ -23,7 +23,6 @@ class FormGameLevel2(Form):
         # --- GUI WIDGET ---                
         self.boton1 = Button(master=self,x=0,y=0,w=88,h=50,color_background=None,color_border=None,image_background="images\gui\menu\home.png",on_click=self.on_click_boton1,on_click_param="form_menu_principal",text="",font="Verdana",font_size=30,font_color=C_WHITE)
         self.boton_shoot = Button(master=self,x=200,y=0,w=140,h=50,color_background=None,color_border=None,image_background="images/gui/set_gui_01/Comic_Border/Buttons/Button_M_02.png",on_click=self.on_click_shoot,on_click_param="form_menu_B",text="SHOOT",font="Verdana",font_size=30,font_color=C_WHITE)
-       
         self.pb_lives = ProgressBar(master=self,x=400,y=10,w=240,h=50,color_background=None,color_border=None,image_progress="images\\gui\\vidas\leonardo.png",value = 5, value_max=5)
         self.widget_list = [self.boton1,self.pb_lives,self.boton_shoot]
 
@@ -66,10 +65,11 @@ class FormGameLevel2(Form):
         self.botin_list.append(Botin(x=1700, y=525, width=75, height=75, path = "images\\Botin\\botin(2).png", type = 3))
 
         # Cronometro
-        self.cronometro = Cronometro(x=750, y=10)
+        
         
         # Game Over
         self.game_over = False
+        self.cronometro = Cronometro(x=750, y=10, tiempo_limite=60000)
 
         # CD Shoot
         self.can_shoot = True
@@ -136,6 +136,11 @@ class FormGameLevel2(Form):
             self.pb_lives.value = self.player_1.lives 
             self.automatic_shoot()
 
+        if self.game_over:
+            for aux_widget in self.widget_list:
+                aux_widget.update(lista_eventos)            
+            
+
     def draw(self): 
         super().draw()
         self.static_background.draw(self.surface)
@@ -159,19 +164,15 @@ class FormGameLevel2(Form):
 
         self.cronometro.draw(self.surface)
 
+        if self.player_1.lives == 0 or self.cronometro.time_out:
+            self.game_over = True
+            self.game_over_background.draw(self.surface)
+            self.boton1.draw()
+
         if self.player_1.score >= 1400:
             self.cowabunga.play()            
-            self.win_background.draw(self.surface)   
-            self.win_init = pygame.time.get_ticks()  
-            self.win_init = 0  
-            self.win_cooldown = 5000 
-            modificar_banderas(True, "nivel_2")   
-            if pygame.time.get_ticks() - self.win_init >= self.win_cooldown:  
-                self.bandera_level_2 = True               
-                
-        
-        if self.player_1.lives == 0:
-                self.game_over = True
-                self.game_over_background.draw(self.surface)
+            self.win_background.draw(self.surface)
+            self.boton1.draw() 
+            modificar_banderas(True, "nivel_2")
 
         

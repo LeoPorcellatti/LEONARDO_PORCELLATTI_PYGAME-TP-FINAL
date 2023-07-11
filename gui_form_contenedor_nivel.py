@@ -63,9 +63,6 @@ class FormContenedorNiveles(Form):
         pygame.mixer.music.play()
     
     '''
-    
-
-
 
     # def on_click_boton2(self, parametro):
     #     self.graph1.x0 = int(self.txt_x0._text)

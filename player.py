@@ -235,14 +235,12 @@ class Player:
         for enemy in enemy_list:
             if self.collition_rect.colliderect(enemy.collition_rect):
                 if self.cooldown_damage <= 0:
-                    self.lives -= 1
-                    self.damaged_sound.play()    
+                    self.lives -= 1                    
                     self.is_damage = True
                     self.cooldown_damage = 3000  
             elif (self.collition_rect.colliderect(boss.collition_rect) and self.direction != boss.direction): 
                 if self.cooldown_damage <= 0:
-                    self.lives -= 1
-                    self.damaged_sound.play()    
+                    self.lives -= 1  
                     self.is_damage = True
                     self.cooldown_damage = 3000   
 
@@ -251,6 +249,7 @@ class Player:
 
         if self.is_damage:
             self.damaged()
+            self.damaged_sound.play()    
 
         
         

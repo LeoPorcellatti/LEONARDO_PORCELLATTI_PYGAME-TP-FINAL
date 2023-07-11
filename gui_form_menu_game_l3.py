@@ -20,7 +20,7 @@ class FormGameLevel3(Form):
         super().__init__(name,master_surface,x,y,w,h,color_background,color_border,active)        
 
         # --- GUI WIDGET ---                
-        self.boton1 = Button(master=self,x=0,y=0,w=88,h=50,color_background=None,color_border=None,image_background="images\gui\menu\home.png",on_click=self.on_click_boton1,on_click_param="form_menu_principal",text="",font="Verdana",font_size=30,font_color=C_WHITE)
+        self.boton1 = Button(master=self,x=1722,y=550,w=88,h=50,color_background=None,color_border=None,image_background="images\gui\menu\home.png",on_click=self.on_click_boton1,on_click_param="form_menu_principal",text="",font="Verdana",font_size=30,font_color=C_WHITE)
         self.boton_shoot = Button(master=self,x=200,y=0,w=140,h=50,color_background=None,color_border=None,image_background="images/gui/set_gui_01/Comic_Border/Buttons/Button_M_02.png",on_click=self.on_click_shoot,on_click_param="form_menu_B",text="SHOOT",font="Verdana",font_size=30,font_color=C_WHITE)
        
         self.pb_lives = ProgressBar(master=self,x=400,y=10,w=240,h=50,color_background=None,color_border=None,image_progress="images\\gui\\vidas\leonardo.png",value = 5, value_max=10)
@@ -69,7 +69,7 @@ class FormGameLevel3(Form):
         self.botin_list.append(Botin(x=1650, y=375, width=75, height=75, path = "images\\Botin\\botin(2).png", type = 3))
 
         # Cronometro
-        self.cronometro = Cronometro(x=750, y=10)
+        self.cronometro = Cronometro(x=750, y=10, tiempo_limite=500)
         
         # Game Over
         self.game_over = False
@@ -113,9 +113,6 @@ class FormGameLevel3(Form):
         
 
     def update(self, lista_eventos,keys,delta_ms):
-        if self.player_1.lives == 0:
-            self.game_over = True
-            self.game_over_background.draw(self.surface)
 
         if not self.game_over:  
             for aux_widget in self.widget_list:
@@ -144,6 +141,9 @@ class FormGameLevel3(Form):
             self.boss_lives.value = self.boss_1.lives 
             self.automatic_shoot()
 
+        if self.game_over:
+            for aux_widget in self.widget_list:
+                aux_widget.update(lista_eventos)  
 
     def draw(self): 
         super().draw()
@@ -169,17 +169,14 @@ class FormGameLevel3(Form):
             bullet_element.draw(self.surface)
 
         self.cronometro.draw(self.surface)
+         
+        if self.player_1.lives == 0 or self.cronometro.time_out:
+            self.game_over = True
+            self.game_over_background.draw(self.surface)
+            self.boton1.draw()  
 
-        if self.boss_1.lives == 0:    
+        if self.boss_1.lives == 0:
             self.cowabunga.play()            
-            self.win_background.draw(self.surface)   
-            self.win_init = pygame.time.get_ticks()  
-            self.win_init = 0  
-            self.win_cooldown = 5000  
-            modificar_banderas(True, "nivel_3")  
-            if pygame.time.get_ticks() - self.win_init >= self.win_cooldown:  
-                self.bandera_level_3 = True
-
-        if self.player_1.lives == 0:
-                self.game_over = True
-                self.game_over_background.draw(self.surface)
+            self.win_background.draw(self.surface)
+            self.boton1.draw() 
+            modificar_banderas(True, "nivel_3")

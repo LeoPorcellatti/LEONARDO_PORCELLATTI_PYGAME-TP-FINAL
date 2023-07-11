@@ -54,15 +54,6 @@ while True:
             # Pausa
             elif event.key == pygame.K_ESCAPE:
                 is_paused = not is_paused
-
-    if form_game_L1.bandera_level_1 or form_game_L1.game_over or form_game_L2.bandera_level_2 or form_game_L2.game_over or form_game_L3.bandera_level_3 or form_game_L3.game_over:
-        form_menu_principal = FormMenuPrincipal (name="form_menu_principal",master_surface = screen,x=0,y=0,w=ANCHO_VENTANA,h=ALTO_VENTANA,color_background=(255,255,0),color_border=(255,0,255),active=True)
-        form_menu_A = FormMenuA(name="form_menu_A",master_surface = screen,x=0,y=0,w=ANCHO_VENTANA,h=ALTO_VENTANA,color_background=(255,255,0),color_border=(255,0,255),active=True)
-        form_menu_B = FormMenuB(name="form_menu_B",master_surface = screen,x=300,y=200,w=500,h=400,color_background=(0,255,255),color_border=(255,0,255),active=False)
-        form_contenedor_niveles = FormContenedorNiveles(name="form_contenedor_niveles", master_surface=screen,x=0,y=0,w=ANCHO_VENTANA,h=ALTO_VENTANA,color_background=(0,255,255),color_border=(255,0,255),active=False)
-        form_game_L1 = FormGameLevel1(name="form_game_L1",master_surface = screen,x=0,y=0,w=ANCHO_VENTANA,h=ALTO_VENTANA,color_background=(0,255,255),color_border=(255,0,255),active=False)
-        form_game_L2 = FormGameLevel2(name="form_game_L2",master_surface = screen,x=0,y=0,w=ANCHO_VENTANA,h=ALTO_VENTANA,color_background=(0,255,255),color_border=(255,0,255),active=False)
-        form_game_L3 = FormGameLevel3(name="form_game_L3",master_surface = screen,x=0,y=0,w=ANCHO_VENTANA,h=ALTO_VENTANA,color_background=(0,255,255),color_border=(255,0,255),active=False)
     
     keys = pygame.key.get_pressed()
     delta_ms = clock.tick(FPS)

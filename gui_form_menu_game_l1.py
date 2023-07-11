@@ -23,7 +23,6 @@ class FormGameLevel1(Form):
         # --- GUI WIDGET ---                
         self.boton1 = Button(master=self,x=0,y=0,w=88,h=50,color_background=None,color_border=None,image_background="images\gui\menu\home.png",on_click=self.on_click_boton1,on_click_param="form_menu_principal",text="",font="Verdana",font_size=30,font_color=C_WHITE)
         #self.boton_shoot = Button(master=self,x=200,y=0,w=140,h=50,color_background=None,color_border=None,image_background="images/gui/set_gui_01/Comic_Border/Buttons/Button_M_02.png",on_click=self.on_click_shoot,on_click_param="form_menu_B",text="SHOOT",font="Verdana",font_size=30,font_color=C_WHITE)
-       
         self.pb_lives = ProgressBar(master=self,x=400,y=10,w=240,h=50,color_background=None,color_border=None,image_progress="images\\gui\\vidas\leonardo.png",value = 5, value_max=5)
         self.widget_list = [self.boton1,self.pb_lives]
 
@@ -53,19 +52,16 @@ class FormGameLevel1(Form):
         self.plataform_list.append(Plataform(x=1200, y=250, width=600, height=50, path="images\platforms\plataforma_alcantarilla(1).png", speed=0, frame_rate_ms = 150, move_rate_ms=50, type=1)) #Der
 
         # Bullet
-        self.bullet_list = []
-        
+        self.bullet_list = []        
 
         # Botin
         self.botin_list = []
         self.botin_list.append(Botin(x=400, y=375, width=75, height=75, path = "images\\Botin\\botin(0).png", type = 1))
         self.botin_list.append(Botin(x=1700, y=175, width=75, height=75, path = "images\\Botin\\botin(0).png", type = 1))
         self.botin_list.append(Botin(x=50, y=175, width=75, height=75, path = "images\\Botin\\botin(0).png", type = 1))
-
-        # Cronometro
-        self.cronometro = Cronometro(x=750, y=10)
-        
+       
         # Game Over
+        self.cronometro = Cronometro(x=750, y=10, tiempo_limite=60000)
         self.game_over = False
 
         # Bandera Level
@@ -77,8 +73,7 @@ class FormGameLevel1(Form):
         self.shoot_cooldown = 3000
         self.last_shoot_time = 0   
 
-        #WIN
-        self.bandera_level_1 = False
+        #WIN        
         self.cowabunga = pygame.mixer.Sound("images\music\\cowabunga.wav")
         
         
@@ -153,6 +148,11 @@ class FormGameLevel1(Form):
             self.pb_lives.value = self.player_1.lives 
             self.automatic_shoot()
 
+        if self.game_over:
+            for aux_widget in self.widget_list:
+                aux_widget.update(lista_eventos)            
+            
+
 
     def draw(self): 
         super().draw()
@@ -177,22 +177,13 @@ class FormGameLevel1(Form):
 
         self.cronometro.draw(self.surface)
 
-        if self.player_1.score == 900:
-            # arreglar cd
-            self.cowabunga.play()            
-            self.win_background.draw(self.surface)                     
-            self.win_init = pygame.time.get_ticks()  
-            self.win_init = 0  
-            self.win_cooldown = 5000  
-            modificar_banderas(True, "nivel_1")  
-            if pygame.time.get_ticks() - self.win_init >= self.win_cooldown:  
-                self.bandera_level_1 = True
-                           
-                
-        
-        if self.player_1.lives == 0:
-                self.game_over = True
-                self.game_over_background.draw(self.surface)
-                
+        if self.player_1.lives == 0 or self.cronometro.time_out:                 
+            self.game_over_background.draw(self.surface)
+            self.boton1.draw()
+            self.game_over = True     
 
-        
+        if self.player_1.score == 900:
+            self.cowabunga.play()            
+            self.win_background.draw(self.surface)
+            self.boton1.draw() 
+            modificar_banderas(True, "nivel_1")

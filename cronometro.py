@@ -4,12 +4,12 @@ from auxiliar import Auxiliar
 
 
 class Cronometro:
-    def __init__(self, x, y):
+    def __init__(self, x, y, tiempo_limite):
         self.x = x
         self.y = y
         self.fuente = pygame.font.Font("images\\gui\\fonts\\Turtles.otf",40)
         self.contador_segundos = pygame.time.get_ticks()  
-        self.tiempo_limite = 180000
+        self.tiempo_limite = tiempo_limite
         self.time_out = False
         
     def draw(self, screen):
@@ -19,3 +19,5 @@ class Cronometro:
         tiempo_restante = str(tiempo_restante_segundos)        
         contador = self.fuente.render("Tiempo: " + tiempo_restante, 0, (GREEN_TURTLE))
         screen.blit(contador,(750,10))
+        if tiempo_restante_segundos == 0:
+            self.time_out = True
