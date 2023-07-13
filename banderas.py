@@ -5,8 +5,9 @@ def crear_banderas(banderas_niveles):
         json.dump(banderas_niveles, archivo)
 
 def leer_banderas(path):
-    with open("Banderas_Niveles.json", "r") as archivo:
+    with open(path, "r") as archivo:
         banderas_niveles = json.load(archivo)
+    return banderas_niveles
 
 def modificar_banderas(nuevo_valor, nivel):
     with open("Banderas_Niveles.json", "r") as archivo:

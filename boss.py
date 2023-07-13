@@ -124,8 +124,7 @@ class Boss:
                 self.frame += 1 
                 #print(self.frame)
             else: 
-                self.frame = 0
-        
+                self.frame = 0        
 
     def update(self,delta_ms,plataform_list, player):
         self.do_movement(delta_ms,plataform_list)
@@ -148,12 +147,6 @@ class Boss:
                 self.rect.x = -1000
                 self.collition_rect.x = -1000
                 self.ground_collition_rect.x =-1000
-        
-        
-                
-                    
-
-        
 
     def draw(self,screen):
         

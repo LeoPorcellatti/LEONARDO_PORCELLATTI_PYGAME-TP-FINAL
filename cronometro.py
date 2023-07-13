@@ -21,3 +21,4 @@ class Cronometro:
         screen.blit(contador,(750,10))
         if tiempo_restante_segundos == 0:
             self.time_out = True
+

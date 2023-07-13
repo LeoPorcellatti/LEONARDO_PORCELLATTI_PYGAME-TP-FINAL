@@ -12,7 +12,10 @@ class TextBox(Widget):
         self.state = M_STATE_NORMAL
         self.writing_flag = False
         self.render()
-        
+    
+    def get_text(self):
+        return self._text  
+
     def render(self):
         super().render()
         if self.state == M_STATE_HOVER: # Se aclara la imagen

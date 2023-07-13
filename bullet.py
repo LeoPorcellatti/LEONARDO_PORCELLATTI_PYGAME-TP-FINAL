@@ -47,13 +47,11 @@ class Bullet():
             pass
     
     def check_impact(self,plataform_list,enemy_list,player):
-        if(self.is_active and self.owner != player and self.rect.colliderect(player.rect)):
-            print("IMPACTO PLAYER")
+        if(self.is_active and self.owner != player and self.rect.colliderect(player.rect)):            
             player.receive_shoot()
             self.is_active = False
         for aux_enemy in enemy_list:
             if(self.is_active and self.owner != aux_enemy and self.rect.colliderect(aux_enemy.rect)):
-                print("IMPACTO ENEMY")
                 self.is_active = False
 
     def update(self,delta_ms,plataform_list,enemy_list,player):

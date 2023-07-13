@@ -18,9 +18,6 @@ class FormMenuA(Form):
         self.label = Label(master=self,x=600,y=400,w=600,h=50,color_background=None,color_border=None,image_background="images\gui\menu\label.png", text = "Label", font = "Arial", font_size=14, font_color=C_BLUE)               
         self.lista_widget = [self.boton1, self.label]
   
-                   
-        
-
     def on_click_boton1(self, parametro):
         self.set_active(parametro)
         if parametro == "form_game_L1":

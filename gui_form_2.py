@@ -15,6 +15,7 @@ class Form():
         self.h = h
         self.color_background = color_background
         self.color_border = color_border
+        
 
         self.surface = pygame.Surface((w,h))
         self.slave_rect = self.surface.get_rect()
@@ -23,13 +24,26 @@ class Form():
         self.active = active
         self.x = x
         self.y = y
+        self.lista_widgets = []
+        self.hijo = None 
+        self.dialog_result = None
+        self.padre = None
+        
 
         if(self.color_background != None):
             self.surface.fill(self.color_background)
 
-   
-        
-            
+    def show_dialog(self, formulario): # Si se blitea arriba de la pantalla
+       self.hijo = formulario
+       self.padre = self 
+    
+    def end_dialog(self): # Si se blitea arriba de otro form
+        self.dialog_result = "Ok"
+        self.close()
+    
+    def close(self): # cierra el form una vez lo blitea 
+        self.active = False 
+
     @staticmethod
     def set_active(name):
         for aux_form in Form.forms_dict.values():
