@@ -15,6 +15,7 @@ from bullet import Bullet
 from botin import Botin
 from boss import Boss
 from cronometro import Cronometro
+from ranking_sql import Sql
 
 class FormGameLevel2(Form):
     def __init__(self,name,master_surface,x,y,w,h,color_background,color_border,active):
@@ -145,7 +146,7 @@ class FormGameLevel2(Form):
     def guardar_score(self):
             with open("Datos_ranking.json", "w") as archivo:
                 json.dump(str(self.player_1.score), archivo)
-        
+            Sql.crear_datos_ranking(Form.player_name, self.player_1.score)
 
     def update(self, lista_eventos,keys,delta_ms):
 

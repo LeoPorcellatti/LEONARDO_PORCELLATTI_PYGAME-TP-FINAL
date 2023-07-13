@@ -15,6 +15,7 @@ from botin import Botin
 from cronometro import Cronometro
 from boss import Boss
 from banderas import * 
+from ranking_sql import Sql
 
 class FormGameLevel3(Form):
     def __init__(self,name,master_surface,x,y,w,h,color_background,color_border,active):
@@ -159,7 +160,12 @@ class FormGameLevel3(Form):
         if self.player_1.lives > 0:
             for enemy_element in self.enemy_list:
                 self.bullet_list.append(Bullet(enemy_element,enemy_element.rect.centerx,enemy_element.rect.centery,self.player_1.rect.centerx,self.player_1.rect.centery,20,path="images\\Enemigos\\robot_bullt(0).png",frame_rate_ms=100,move_rate_ms=20,width=80,height=10))
-  
+    
+    def guardar_score(self):
+            with open("Datos_ranking.json", "w") as archivo:
+                json.dump(str(self.player_1.score), archivo)
+            Sql.crear_datos_ranking(Form.player_name, self.player_1.score)
+
     def update(self, lista_eventos,keys,delta_ms):        
 
         if not self.game_over and not self.win:  
@@ -224,6 +230,7 @@ class FormGameLevel3(Form):
             self.boton2 .draw()  
 
         if self.boss_1.lives == 0:
+            self.guardar_score()
             self.cowabunga.play()            
             self.win_background.draw(self.surface)
             self.boton2.draw() 

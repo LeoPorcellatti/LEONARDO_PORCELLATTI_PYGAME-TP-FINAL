@@ -11,6 +11,7 @@ from gui_progressbar import ProgressBar
 from background import Background
 from banderas import *
 from gui_form_menu_B import FormMenuB
+from ranking_sql import Sql
 
 
 class FormMenuPrincipal(Form):
@@ -44,8 +45,7 @@ class FormMenuPrincipal(Form):
 
         # Fondo 
         self.static_background = Background(x=0,y=0,width=w,height=h,path="images\gui\menu\menu.png")
-        self.dic_score = []
-        
+                
         # Música 
         pygame.mixer.music.load("images/music/00-Menu.wav")
         pygame.mixer.music.play()
@@ -56,23 +56,19 @@ class FormMenuPrincipal(Form):
     
     def on_click_boton2(self, parametro):
         nombre = self.txt1.get_text()
+        Form.player_name = nombre
         if len(nombre) > 0:
             self.set_active(parametro)
             banderas_niveles = {"nivel_1": False, "nivel_2": False, "nivel_3": False}
             crear_banderas(banderas_niveles)
 
-        if self.flag_sql == True:
-            with sqlite3.connect("ranking.db") as conexion:
-                try:
-                    sentencia = 'CREATE TABLE Ranking (nombre text, score integer)'
-                    conexion.execute(sentencia)
-                    # ELIMINAR
-                    print("Ranking creado")
-
-                except Exception as e:
-                    # ELIMINAR  
-                    print(f"Error en Base de datos {e}")
-            self.flag_sql = False
+        # if self.flag_sql == True:
+        #     with sqlite3.connect("ranking.db") as conexion:
+        #         try:
+        #             Sql.crear_datos_ranking(nombre, score)                    
+        #         except Exception as e:
+        #             print(f"Error en Base de datos {e}")
+        #     self.flag_sql = False
 
     def update(self, lista_eventos,keys,delta_ms):
         for aux_widget in self.lista_widget:
@@ -87,43 +83,41 @@ class FormMenuPrincipal(Form):
     def on_click_boton3(self, parametro):
         self.set_active(parametro)
         nombre = self.txt1.get_text()
-        ultimo_score = []
+        # ultimo_score = []
         
-        with open("Datos_ranking.json", "r") as archivo:
-            for linea in archivo:
-                ultimo_score.append(linea)
+        # with open("Datos_ranking.json", "r") as archivo:
+        #     for linea in archivo:
+        #         ultimo_score.append(linea)
 
-        with sqlite3.connect("ranking.db") as conexion:
-            print("Conexión a la base de datos establecida")
-            try:
-                print("entre",nombre,ultimo_score[0])
-                sentencia = ' insert into Ranking (nombre, score) values(?,?)'
-                conexion.execute(sentencia, (nombre, ultimo_score[0]))
-                conexion.commit()
-                print("Sentencia ejecutada correctamente")  # Agrega esta línea para verificar la ejecución
-            except Exception as e:
-                print(f"Error en Base de datos {e}")
+        # with sqlite3.connect("ranking.db") as conexion:
+        #     print("Conexión a la base de datos establecida")
+        #     try:
+        #         print("entre",nombre,ultimo_score[0])
+        #         sentencia = ' insert into Ranking (nombre, score) values(?,?)'
+        #         conexion.execute(sentencia, (nombre, ultimo_score[0]))
+        #         conexion.commit()
+        #         print("Sentencia ejecutada correctamente")  # Agrega esta línea para verificar la ejecución
+        #     except Exception as e:
+        #         print(f"Error en Base de datos {e}")
 
+        # dic_score = []
 
-        
-
-        with sqlite3.connect("ranking.db") as conexion:
-            try:
+        # with sqlite3.connect("ranking.db") as conexion:
+        #     try:
               
-                sentencia = '''
-                            select * from Ranking order by score desc limit 4
-                            '''
-                cursor = conexion.execute(sentencia)
-                for fila in cursor:
-                    print("select")
-                    self.dic_score.append({"jugador" : f"{fila[0]}","Score":f"{fila[1]}"},)
-                print("Tabla creada")
-                #print(dic_score)
-            except Exception as e:
-                print(f"Error en Base de datos {e}")
-
-    def get_score(self):
-        return self.dic_score
+        #         sentencia = '''
+        #                     select * from Ranking order by score desc limit 4
+        #                     '''
+        #         cursor = conexion.execute(sentencia)
+        #         for fila in cursor:
+        #             print("select")
+        #             dic_score.append({"jugador" : f"{fila[0]}","Score":f"{fila[1]}"},)
+        #         print("Tabla creada")
+        #         #print(dic_score)
+        #     except Exception as e:
+        #         print(f"Error en Base de datos {e}")
+                
+        # return dic_score
 
     
 

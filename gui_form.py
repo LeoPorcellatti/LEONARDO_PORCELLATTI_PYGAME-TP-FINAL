@@ -6,6 +6,7 @@ from banderas import *
 
 class Form():
     forms_dict = {}
+    player_name = ""
     def __init__(self,name,master_surface,x,y,w,h,color_background,color_border,active):
         self.forms_dict[name] = self
         self.master_surface = master_surface
